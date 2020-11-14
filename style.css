@@ -46,3 +46,13 @@ ul {
 ul li a:hover {
     color:  hsl(0, 72%, 30%);
 }
+
+.w3-modal-content {
+    min-height: 10em;
+    box-shadow: black 0 0 15px;
+}
+
+.w3-modal-content header {
+    height: 38px;
+    padding: 0;
+}
