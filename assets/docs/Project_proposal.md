@@ -107,6 +107,6 @@ THEN I am presented with a list of places looking for short term work in my area
 3. Karl Emmanuel L. Tulio
 ---
 ## Design mock-up
-![Give Help or Get Help](main-screen.png)
+![Give Help or Get Help](../images/main-screen.png)
 ​
-![Give Money or Give Time](secondary-screens.png)
+![Give Money or Give Time](../images/secondary-screens.png)
