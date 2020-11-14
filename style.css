@@ -36,7 +36,8 @@ section:nth-child(even) {
 }
 
 ul li a {
-    color: rgb(50, 55, 63)
+    color: rgb(50, 55, 63);
+    text-decoration: underline;
 }
 
 ul {

@@ -42,6 +42,8 @@ function closeModal() {
 }
 
 function openModal(){
+
+    // because anchorsWithModals is technically a node list and not an array, I has to use Array.prototype
     var i = Array.prototype.indexOf.call(anchorsWithModals, this);
 
     var modal = document.createElement("div");
@@ -71,6 +73,7 @@ function openModal(){
     var link = document.createElement("a");
     link.innerText = modalLink[i][0];
     link.href = modalLink[i][1];
+    link.target ="_blank";
 
     modalContent.append(modalHeader, p, link)
     modal.appendChild(modalContent);
