@@ -84,7 +84,7 @@ function openModal() {
  * Description: Make an API call to get charity data
  * Returns: JSON charity data
  */
-function extractCharityDataByLocation(jsonData) {
+function extractCharityDataByLocation(jsonData, cityName, stateCode) {
     var charityDataByLocationArray = [];
     for (var i = 0; i < 3; i++) {
         var charityDataByLocation = {};
@@ -97,7 +97,7 @@ function extractCharityDataByLocation(jsonData) {
         charityDataByLocation.donationUrl = jsonData.data[i].donationUrl;
         charityDataByLocationArray.push(charityDataByLocation);
     }
-    localStorage.setItem((jsonData.data[0].city + "," + jsonData.data[0].state), JSON.stringify({ charitiesArray: charityDataByLocationArray }));
+    localStorage.setItem((cityName + "," + stateCode), JSON.stringify({ charitiesArray: charityDataByLocationArray }));
 }
 /**
  * Function: retrieveCharitiesByLocation
@@ -108,23 +108,28 @@ function extractCharityDataByLocation(jsonData) {
  * Returns: JSON charity data
  */
 function retrieveCharitiesByLocation(cityName, stateCode) {
-    var cors = "https://cors-anywhere.herokuapp.com/"
-    var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
-    var user_key = "user_key=e2e157b99c8dc1f8dd1d4a2711144cfb"
-    var city = "city=" + cityName;
-    var state = "state=" + stateCode;
-    fetch(cors + baseUrl + user_key + "&" + city + "&" + state)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(jsonData) {
-            console.log(jsonData);
-            // store 3 charities in localDB
-            extractCharityDataByLocation(jsonData);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+    var localDbCharityData = JSON.parse(localStorage.getItem(cityName + "," + stateCode));
+    var isInLocalDb = (localDbCharityData !== null) ? true : false;
+    if (isInLocalDb) {
+        console.log(localDbCharityData);
+    } else {
+        var cors = "https://cors-anywhere.herokuapp.com/"
+        var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
+        var user_key = "user_key=e2e157b99c8dc1f8dd1d4a2711144cfb"
+        var city = "city=" + cityName;
+        var state = "state=" + stateCode;
+        fetch(cors + baseUrl + user_key + "&" + city + "&" + state)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(jsonData) {
+                // store 3 charities in localDB
+                extractCharityDataByLocation(jsonData, cityName, stateCode);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
 }
 
 /**
@@ -132,8 +137,6 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
  * Description: Entry-point for the Servicely application
  */
 function initApplication() {
-    // clear local-storage
-    localStorage.clear();
     retrieveCharitiesByLocation("Boston", "MA");
 
     for (var i = 0; i < anchorsWithModals.length; i++) {
