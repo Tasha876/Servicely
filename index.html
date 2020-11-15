@@ -1,19 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <title>Servicely</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <title>Servicely</title>
 </head>
 
 <body>
-    <h1 style="text-align: center;">Servicely: A web-portal for giving and getting help</h1>
+    <section id="main" class="w3-display-container" style="height: 100vh">
+        <div class="w3-display-middle">
+            <header class="">
+                <h1>Having a hard time or just want to help?</h1>
+            </header>
+            <div class="button-group w3-center">
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#get-help" style="width:8em">GET HELP</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#give-help" style="width:8em">GIVE HELP</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="get-help" class="w3-display-container" style="height: 100vh">
+        <div class="w3-display-middle">
+            <header class="">
+                <h1>We're here to help. What did you need?</h1>
+            </header>
+            <div class="button-group w3-center">
+                <a class="w3-button w3-center w3-red w3-hover-black w3-round-large w3-large" href="#get-legal">GET Legal
+                    Services</a>
+                <a class="w3-button w3-center w3-red w3-hover-black w3-round-large w3-large" href="#get-housing">GET
+                    Housing</a>
+                <a class="w3-button w3-center w3-red w3-hover-black w3-round-large w3-large" href="#get-work">GET
+                    Work</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="get-legal" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <div class="w3-display-center" style="width: auto">
+            <h1 class="w3-center">Here's a list of legal services offered in your area</h1>
+            <ul class="w3-center">
+                <li>
+                    <a class="w3-xlarge opensModal">Legal office Number One</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+                <li>
+                    <a class="w3-xlarge opensModal">Legal Office the Second</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="get-housing" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <div class="w3-display-center" style="width: auto">
+            <h1 class="w3-center">Here's a list of affordable housing in you area.</h1>
+            <ul class="w3-center">
+                <li>
+                    <a class="w3-xlarge opensModal">Housing Option Number One</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+                <li>
+                    <a class="w3-xlarge opensModal">Housing Option the Second</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="get-work" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <div class="w3-display-center" style="width: auto">
+            <h1 class="w3-center">Here's a short term jobs in you area.</h1>
+            <ul class="w3-center">
+                <li>
+                    <a class="w3-xlarge opensModal">Job Number One</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+                <li>
+                    <a class="w3-xlarge opensModal">Job the Second</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="give-help" class="w3-display-container" style="height: 100vh; width: 100%">
+        <div class="w3-display-middle" style="width: auto">
+            <header>
+                <h1 class="w3-center">Have money to spare, or prefer to volunteer?</h1>
+            </header>
+            <div class="button-group w3-center">
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#give-money" style="width:8em">GIVE MONEY</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#give-time" style="width:8em">GIVE TIME</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="give-money" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <div class="w3-display-center" style="width: auto">
+            <h1 class="w3-center">Here's a list of charities in your area</h1>
+            <ul class="w3-center">
+                <li>
+                    <a class="w3-xlarge opensModal">Charity Number One</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+                <li>
+                    <a class="w3-xlarge opensModal">Charity the Second</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="give-time" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <div class="w3-display-center" style="width: auto">
+            <h1 class="w3-center">Here's a list of volunteer options in your area</h1>
+            <ul class="w3-center">
+                <li>
+                    <a class="w3-xlarge opensModal">Option Number One</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+                <li>
+                    <a class="w3-xlarge opensModal">Option the Second</a>
+                    <p class="w3-large desc">
+                        Short description of charity.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </section>
     <script src="assets/scripts/script.js"></script>
 </body>
 
