@@ -34,5 +34,5 @@ saveAddress.addEventListener("click",function(){
     var state = document.getElementById("state");
     var storeState = state.value;
     localStorage.setItem("state", storeState)
-    alert("Item Saved!");
+  
 });

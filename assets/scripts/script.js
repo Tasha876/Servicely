@@ -216,6 +216,7 @@ giveTimeBtn.addEventListener("click", function() {
 function getUserLocation()  {
     if(!navigator.geolocation) {
       //retrieveCharitiesByLocation("Boston", "MA");
+      console.log("Blocked!");
     } else {
       navigator.geolocation.getCurrentPosition(positionFound, positionNotFound, {timeout: 3000});
     }
@@ -223,14 +224,18 @@ function getUserLocation()  {
   
   // if the position is found (e.g. the user accepts)
   function positionFound(position){
+      console.log("Allowed!")
       localStorage.setItem("Geo Accuracy", position.coords.accuracy);
       localStorage.setItem("User Latitude", position.coords.latitude);
       localStorage.setItem("User Longitude", position.coords.longitude);
+      var buttonDisplay = document.getElementById("enterLoc");
+      buttonDisplay.style.display = "none";
   }
   
   // if the position is not found!!!!
   // this is where the code for user input would go
-  function positionNotFound() {
+  function positionNotFound(position) {
+      console.log("Blocked!")
       // create modal to get user input, see *createModal()*
   }
   
