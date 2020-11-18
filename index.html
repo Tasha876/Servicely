@@ -107,7 +107,25 @@
     </section>
 
     <section id="give-money" class="w3-display-container w3-padding-large" style="height: 100vh; width: 100%">
+        <button class="w3-button w3-red w3-hover-green w3-round-black w3-large" id="enterLoc">Enter Location</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+        
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Input your address below: </p>
+            <div><input type="text" aria-placeholder="City" id="city"> City</div>
+            <div><input type="text" aria-placeholder="State" id="state"> State</div>
+            
+            
+            <button class="w3-button w3-red w3-hover-black w3-round-large w3-large" id="saveAddress">Submit</button>
+          </div>
+        
+        </div>
         <div class="w3-display-center" style="width: auto">
+            
             <h1 class="w3-center">Here's a list of charities in your area</h1>
             <ul class="w3-center">
                 <li>
@@ -140,3 +158,4 @@
 
 </body>
 <script src="assets/scripts/script.js"></script>
+<script src="assets/scripts/modalScript.js"></script>
