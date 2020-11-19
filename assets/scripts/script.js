@@ -253,6 +253,9 @@ function positionNotFound(position) {
 
 // code to initialize application
 function initApplication() {
+    // reset location hash on page refresh
+    location.hash = "";
+
     // basically just adding some event listeners to some buttons
 
     var giveMoneyBtn = document.querySelector(".give-money-btn");
