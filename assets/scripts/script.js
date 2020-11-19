@@ -6,6 +6,8 @@ var giveMoney = document.querySelector("#give-money");
 
 var volunteerSection = document.querySelector("#give-time");
 
+var user_key = "user_key=9783b08224096112ba94f5d9b8377d11";
+
 // closes modal
 function closeModal() {
     this.parentElement.parentElement.parentElement.style.display = "none";
@@ -86,7 +88,7 @@ function createListItem(lst, sectionID) {
 
         // add text to elements
         link.innerText = lst[i][0];
-        p.innerText = "try to find description somehow";
+        // p.innerText = "try to find description somehow";
 
         // add classes to elements
         link.classList.add("w3-xlarge", "opensModal");
@@ -114,7 +116,6 @@ function findWithinRadius(miles) {
 
     var cors = "https://cors-anywhere.herokuapp.com/"
     var baseUrl = "https://data.orghunter.com/v1/charitysearch?"
-    var user_key = "user_key=9783b08224096112ba94f5d9b8377d11"
     var distance = "distance=" + miles;
     var longitude = "longitude=" + localStorage.getItem("User Longitude");
     var latitude = "latitude=" + localStorage.getItem("User Latitude");
@@ -178,11 +179,11 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
     var localDbCharityData = JSON.parse(localStorage.getItem(cityName + "," + stateCode));
     var isInLocalDb = (localDbCharityData !== null) ? true : false;
     if (isInLocalDb) {
+        console.log("Data found in localDB!");
         console.log(localDbCharityData);
     } else {
         var cors = "https://cors-anywhere.herokuapp.com/"
         var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
-        var user_key = "user_key=e2e157b99c8dc1f8dd1d4a2711144cfb"
         var city = "city=" + cityName;
         var state = "state=" + stateCode;
         fetch(cors + baseUrl + user_key + "&" + city + "&" + state)
@@ -191,6 +192,7 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
             })
             .then(function(jsonData) {
                 // store 3 charities in localDB
+                // console.log(jsonData);
                 extractCharityDataByLocation(jsonData, cityName, stateCode);
             })
             .catch(function(error) {
