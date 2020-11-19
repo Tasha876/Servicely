@@ -8,13 +8,13 @@ var volunteerSection = document.querySelector("#give-time");
 
 // closes modal
 function closeModal() {
-    this.parentElement.parentElement.parentElement.style.display="none";
+    this.parentElement.parentElement.parentElement.style.display = "none";
 }
 
 // opens modal
-function openModal(){
+function openModal() {
 
-    var modal = createModal(this.innerText, "nothing for now", this.getAttribute("data-name"), this.getAttribute("data-url"))
+    var modal = createModal(this.innerText, "Click below to donate:", this.getAttribute("data-name"), this.getAttribute("data-url"))
 
     this.parentElement.appendChild(modal);
 
@@ -48,7 +48,7 @@ function createModal(header, content, footer, optionalUrl) { // enter "" if not 
 
     // create modal contents
     var p = document.createElement("p");
-    p.innerHTML =  content;
+    p.innerHTML = content;
     modal.style.display = "block";
 
     // create anchor
@@ -58,7 +58,7 @@ function createModal(header, content, footer, optionalUrl) { // enter "" if not 
     // add URL to anchor if applicable
     if (optionalUrl) {
         link.href = optionalUrl;
-        link.target ="_blank";
+        link.target = "_blank";
     }
 
     // append it all
@@ -73,12 +73,12 @@ function createModal(header, content, footer, optionalUrl) { // enter "" if not 
 function createListItem(lst, sectionID) {
 
     var ul = sectionID.querySelector("ul");
-    
+
     ul.innerText = "";
     var i = 0
 
     // javascript does not seem to know the length of lst in advance
-    while(lst[i] !== undefined) {
+    while (lst[i] !== undefined) {
         // create elements
         var li = document.createElement("li");
         var link = document.createElement("a");
@@ -91,7 +91,7 @@ function createListItem(lst, sectionID) {
         // add classes to elements
         link.classList.add("w3-xlarge", "opensModal");
         p.classList.add("w3-large", "desc");
-        
+
         // add event listener
         link.addEventListener("click", openModal);
 
@@ -106,42 +106,45 @@ function createListItem(lst, sectionID) {
 
         i++;
     }
-    
+
 }
 
 // this is basically Omair's code, just modified so it uses geolocation and lat/lon
-function findWithinRadius(KM) {
+function findWithinRadius(miles) {
 
     var cors = "https://cors-anywhere.herokuapp.com/"
-    var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
-    var user_key = "user_key=e2e157b99c8dc1f8dd1d4a2711144cfb"
-    var distance = "distance=" + KM * 0.621371;
+    var baseUrl = "https://data.orghunter.com/v1/charitysearch?"
+    var user_key = "user_key=9783b08224096112ba94f5d9b8377d11"
+    var distance = "distance=" + miles;
     var longitude = "longitude=" + localStorage.getItem("User Longitude");
     var latitude = "latitude=" + localStorage.getItem("User Latitude");
     var charities = [];
-    
-        fetch(cors + baseUrl + user_key + "&" + distance + "&" + longitude + "&" + latitude)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(jsonData) {
+    console.log("fetch CALL");
+    fetch(cors + baseUrl + user_key + "&" + distance + "&" + longitude + "&" + latitude)
+        // fetch(cors + "https://data.orghunter.com/v1/charitysearch?user_key=9783b08224096112ba94f5d9b8377d11&latitude=45.25021725752714&longitude=-75.74827260890281&distance=10")
+        .then(function(response) {
+            console.log("return JSON response");
+            return response.json();
+        })
+        .then(function(jsonData) {
+            console.log(jsonData.data);
+            for (var i = 0; i < 5 && i < jsonData.data.length; i++) {
 
-                for (var i = 0; i < 5 && i < jsonData.data.length; i++) {
+                var url = jsonData.data[i].donationUrl;
+                var charity = jsonData.data[i].charityName.toLowerCase();
+                console.log("url:" + url);
+                console.log("charity:" + charity);
+                charities.push([charity, url])
+            }
+            createListItem(charities, charitySection);
+        })
+        .catch(function(error) {
+            modal = createModal("Error", error, "Please try again.", "");
+            console.log(this);
+            charitySection.appendChild(modal);
+        });
 
-                    var url = jsonData.data[i].url;
-                    var charity = jsonData.data[i].charityName.toLowerCase();
-
-                    charities.push([charity,url])
-                }
-                createListItem(charities, charitySection);
-            })
-            .catch(function(error) {
-                modal = createModal("Error", error, "Please try again.", "");
-                console.log(this);
-                charitySection.appendChild(modal);
-            });
-        
-} 
+}
 
 /**
  * Function: extractCharityDataByLocation
@@ -196,53 +199,55 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
     }
 }
 
-// basically just adding some event listeners to some buttons
-
-var giveMoneyBtn = document.querySelector(".give-money-btn");
-
-giveMoneyBtn.addEventListener("click", function() {
-    findWithinRadius("5");
-});
-
-var giveTimeBtn = document.querySelector(".give-time-btn");
-
-var volunteerSection = document.querySelector("#give-time");
-
-giveTimeBtn.addEventListener("click", function() {
-    var giveTimeList = [["something", ""]];
-    createListItem(giveTimeList, volunteerSection);
-});
-
-function getUserLocation()  {
-    if(!navigator.geolocation) {
-      //retrieveCharitiesByLocation("Boston", "MA");
-      console.log("Blocked!");
+function getUserLocation() {
+    if (!navigator.geolocation) {
+        //retrieveCharitiesByLocation("Boston", "MA");
+        console.log("Blocked!");
     } else {
-      navigator.geolocation.getCurrentPosition(positionFound, positionNotFound, {timeout: 3000});
+        navigator.geolocation.getCurrentPosition(positionFound, positionNotFound, { timeout: 3000 });
     }
-  }
-  
-  // if the position is found (e.g. the user accepts)
-  function positionFound(position){
-      console.log("Allowed!")
-      localStorage.setItem("Geo Accuracy", position.coords.accuracy);
-      localStorage.setItem("User Latitude", position.coords.latitude);
-      localStorage.setItem("User Longitude", position.coords.longitude);
-      var buttonDisplay = document.getElementById("enterLoc");
-      buttonDisplay.style.display = "none";
-  }
-  
-  // if the position is not found!!!!
-  // this is where the code for user input would go
-  function positionNotFound(position) {
-      console.log("Blocked!")
-      // create modal to get user input, see *createModal()*
-  }
-  
-  // code to initialize application
-  function initApplication() {
-      getUserLocation();
-  }
-  
+}
+
+// if the position is found (e.g. the user accepts)
+function positionFound(position) {
+    console.log("Allowed!")
+    localStorage.setItem("Geo Accuracy", position.coords.accuracy);
+    localStorage.setItem("User Latitude", position.coords.latitude);
+    localStorage.setItem("User Longitude", position.coords.longitude);
+    var buttonDisplay = document.getElementById("enterLoc");
+    buttonDisplay.style.display = "none";
+    findWithinRadius("10");
+}
+
+// if the position is not found!!!!
+// this is where the code for user input would go
+function positionNotFound(position) {
+    console.log("Blocked!");
+    // create modal to get user input, see *createModal()*
+}
+
+// code to initialize application
+function initApplication() {
+    // basically just adding some event listeners to some buttons
+
+    var giveMoneyBtn = document.querySelector(".give-money-btn");
+
+    giveMoneyBtn.addEventListener("click", function() {
+        getUserLocation();
+    });
+
+    var giveTimeBtn = document.querySelector(".give-time-btn");
+
+    var volunteerSection = document.querySelector("#give-time");
+
+    giveTimeBtn.addEventListener("click", function() {
+        var giveTimeList = [
+            ["something", ""]
+        ];
+        createListItem(giveTimeList, volunteerSection);
+    });
+
+}
+
 // jQuery entry-point
 $(document).ready(initApplication);
