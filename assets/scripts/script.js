@@ -111,6 +111,39 @@ function createListItem(lst, sectionID) {
 
 }
 
+function createCharitySpinner() {
+    var charityUlTag = document.getElementById("charity-ul");
+    // div with class=w3-container
+    var spinnerDivElem = document.createElement("DIV");
+    spinnerDivElem.setAttribute("id", "charity-spinner");
+    var w3ContainerClassAttr = document.createAttribute("class");
+    w3ContainerClassAttr.value = "w3-container";
+    spinnerDivElem.setAttributeNode(w3ContainerClassAttr);
+    // add div to ul
+    charityUlTag.appendChild(spinnerDivElem);
+    // create P ELEM
+    var spinnerPElem = document.createElement("P");
+    // add p to div
+    spinnerDivElem.appendChild(spinnerPElem);
+    // creat I ELEM
+    var spinnerIElem = document.createElement("I");
+    // create class attr for I
+    var classAttrITag = document.createAttribute("class");
+    classAttrITag.value = "fa fa-spinner w3-spin";
+    spinnerIElem.setAttributeNode(classAttrITag);
+    // create style attr for I
+    var styleAttrITag = document.createAttribute("style");
+    styleAttrITag.value = "font-size:64px";
+    spinnerIElem.setAttributeNode(styleAttrITag);
+    // add i to p
+    spinnerPElem.appendChild(spinnerIElem);
+}
+
+function deleteCharitySpinner() {
+    var charityUlTag = document.getElementById("charity-ul");
+    console.log(charityUlTag);
+    charityUlTag.removeChild(charityUlTag.childNodes[0]);
+}
 // this is basically Omair's code, just modified so it uses geolocation and lat/lon
 function findWithinRadius(miles) {
 
@@ -121,13 +154,15 @@ function findWithinRadius(miles) {
     var latitude = "latitude=" + localStorage.getItem("User Latitude");
     var charities = [];
     console.log("fetch CALL");
+    createCharitySpinner();
     fetch(cors + baseUrl + user_key + "&" + distance + "&" + longitude + "&" + latitude)
         // fetch(cors + "https://data.orghunter.com/v1/charitysearch?user_key=9783b08224096112ba94f5d9b8377d11&latitude=45.25021725752714&longitude=-75.74827260890281&distance=10")
-        .then(function(response) {
+        .then(function (response) {
             console.log("return JSON response");
             return response.json();
         })
-        .then(function(jsonData) {
+        .then(function (jsonData) {
+            deleteCharitySpinner();
             console.log(jsonData.data);
             for (var i = 0; i < 5 && i < jsonData.data.length; i++) {
 
@@ -139,7 +174,8 @@ function findWithinRadius(miles) {
             }
             createListItem(charities, charitySection);
         })
-        .catch(function(error) {
+        .catch(function (error) {
+            deleteCharitySpinner();
             modal = createModal("Error", error, "Please try again.", "");
             console.log(this);
             charitySection.appendChild(modal);
@@ -198,11 +234,13 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
         var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
         var city = "city=" + cityName;
         var state = "state=" + stateCode;
+        createCharitySpinner();
         fetch(cors + baseUrl + user_key + "&" + city + "&" + state)
-            .then(function(response) {
+            .then(function (response) {
                 return response.json();
             })
-            .then(function(jsonData) {
+            .then(function (jsonData) {
+                deleteCharitySpinner();
                 // store 3 charities in localDB
                 console.log(jsonData.data);
                 extractCharityDataByLocation(jsonData, cityName, stateCode);
@@ -218,8 +256,11 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
                 }
                 createListItem(charities, charitySection);
             })
-            .catch(function(error) {
-                console.log(error);
+            .catch(function (error) {
+                deleteCharitySpinner();
+                modal = createModal("Error", error, "Please try again.", "");
+                console.log(this);
+                charitySection.appendChild(modal);
             });
     }
 }
@@ -260,7 +301,7 @@ function initApplication() {
 
     var giveMoneyBtn = document.querySelector(".give-money-btn");
 
-    giveMoneyBtn.addEventListener("click", function() {
+    giveMoneyBtn.addEventListener("click", function () {
         getUserLocation();
     });
 
@@ -268,7 +309,7 @@ function initApplication() {
 
     var volunteerSection = document.querySelector("#give-time");
 
-    giveTimeBtn.addEventListener("click", function() {
+    giveTimeBtn.addEventListener("click", function () {
         var giveTimeList = [
             ["something", ""]
         ];
