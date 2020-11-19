@@ -146,41 +146,59 @@ function deleteCharitySpinner() {
 }
 // this is basically Omair's code, just modified so it uses geolocation and lat/lon
 function findWithinRadius(miles) {
-
-    var cors = "https://cors-anywhere.herokuapp.com/"
-    var baseUrl = "https://data.orghunter.com/v1/charitysearch?"
-    var distance = "distance=" + miles;
-    var longitude = "longitude=" + localStorage.getItem("User Longitude");
-    var latitude = "latitude=" + localStorage.getItem("User Latitude");
+    var localDbCharityData = JSON.parse(localStorage.getItem("currLocation"));
+    var isInLocalDb = (localDbCharityData !== null) ? true : false;
     var charities = [];
-    console.log("fetch CALL");
-    createCharitySpinner();
-    fetch(cors + baseUrl + user_key + "&" + distance + "&" + longitude + "&" + latitude)
-        // fetch(cors + "https://data.orghunter.com/v1/charitysearch?user_key=9783b08224096112ba94f5d9b8377d11&latitude=45.25021725752714&longitude=-75.74827260890281&distance=10")
-        .then(function (response) {
-            console.log("return JSON response");
-            return response.json();
-        })
-        .then(function (jsonData) {
-            deleteCharitySpinner();
-            console.log(jsonData.data);
-            for (var i = 0; i < 5 && i < jsonData.data.length; i++) {
+    if (isInLocalDb) {
+        console.log("Data found in localDB!");
+        // Render charities list
+        for (var i = 0; i < 5; i++) {
+            var url = localDbCharityData.charitiesArray[i][1]
+            var charity = localDbCharityData.charitiesArray[i][0];
+            // console.log("url:" + url);
+            // console.log("charity:" + charity);
+            charities.push([charity, url])
+        }
+        // render
+        createListItem(charities, charitySection);
+    } else {
+        var cors = "https://cors-anywhere.herokuapp.com/"
+        var baseUrl = "https://data.orghunter.com/v1/charitysearch?"
+        var distance = "distance=" + miles;
+        var longitude = "longitude=" + localStorage.getItem("User Longitude");
+        var latitude = "latitude=" + localStorage.getItem("User Latitude");
+        console.log("Data NOT found in localDB!");
+        console.log("fetch CALL");
+        createCharitySpinner();
+        fetch(cors + baseUrl + user_key + "&" + distance + "&" + longitude + "&" + latitude)
+            // fetch(cors + "https://data.orghunter.com/v1/charitysearch?user_key=9783b08224096112ba94f5d9b8377d11&latitude=45.25021725752714&longitude=-75.74827260890281&distance=10")
+            .then(function(response) {
+                console.log("return JSON response");
+                return response.json();
+            })
+            .then(function(jsonData) {
+                deleteCharitySpinner();
+                console.log(jsonData.data);
+                for (var i = 0; i < 5 && i < jsonData.data.length; i++) {
 
-                var url = jsonData.data[i].donationUrl;
-                var charity = jsonData.data[i].charityName.toLowerCase();
-                console.log("url:" + url);
-                console.log("charity:" + charity);
-                charities.push([charity, url])
-            }
-            createListItem(charities, charitySection);
-        })
-        .catch(function (error) {
-            deleteCharitySpinner();
-            modal = createModal("Error", error, "Please try again.", "");
-            console.log(this);
-            charitySection.appendChild(modal);
-        });
-
+                    var url = jsonData.data[i].donationUrl;
+                    var charity = jsonData.data[i].charityName.toLowerCase();
+                    console.log("url:" + url);
+                    console.log("charity:" + charity);
+                    charities.push([charity, url])
+                }
+                // save to localDB or later use
+                localStorage.setItem(("currLocation"), JSON.stringify({ charitiesArray: charities }));
+                // render
+                createListItem(charities, charitySection);
+            })
+            .catch(function(error) {
+                deleteCharitySpinner();
+                modal = createModal("Error", error, "Please try again.", "");
+                console.log(this);
+                charitySection.appendChild(modal);
+            });
+    }
 }
 
 /**
@@ -236,10 +254,10 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
         var state = "state=" + stateCode;
         createCharitySpinner();
         fetch(cors + baseUrl + user_key + "&" + city + "&" + state)
-            .then(function (response) {
+            .then(function(response) {
                 return response.json();
             })
-            .then(function (jsonData) {
+            .then(function(jsonData) {
                 deleteCharitySpinner();
                 // store 3 charities in localDB
                 console.log(jsonData.data);
@@ -256,7 +274,7 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
                 }
                 createListItem(charities, charitySection);
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 deleteCharitySpinner();
                 modal = createModal("Error", error, "Please try again.", "");
                 console.log(this);
@@ -301,7 +319,7 @@ function initApplication() {
 
     var giveMoneyBtn = document.querySelector(".give-money-btn");
 
-    giveMoneyBtn.addEventListener("click", function () {
+    giveMoneyBtn.addEventListener("click", function() {
         getUserLocation();
     });
 
@@ -309,7 +327,7 @@ function initApplication() {
 
     var volunteerSection = document.querySelector("#give-time");
 
-    giveTimeBtn.addEventListener("click", function () {
+    giveTimeBtn.addEventListener("click", function() {
         var giveTimeList = [
             ["something", ""]
         ];
