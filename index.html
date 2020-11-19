@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <title>SERVICELY</title>
@@ -18,8 +19,10 @@
                 <h1>Having a hard time or just want to help?</h1>
             </header>
             <div class="button-group w3-center">
-                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#get-help" style="width:8em">GET HELP</a>
-                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#give-help" style="width:8em">GIVE HELP</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#get-help"
+                    style="width:8em">GET HELP</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large" href="#give-help"
+                    style="width:8em">GIVE HELP</a>
             </div>
         </div>
     </section>
@@ -106,8 +109,10 @@
                 <h1 class="w3-center">Have money to spare, or prefer to volunteer?</h1>
             </header>
             <div class="button-group w3-center">
-                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large give-money-btn" href="#give-money" style="width:8em">GIVE MONEY</a>
-                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large give-time-btn" href="#give-time" style="width:8em">GIVE TIME</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large give-money-btn" href="#give-money"
+                    style="width:8em">GIVE MONEY</a>
+                <a class="w3-button w3-red w3-hover-black w3-round-large w3-large give-time-btn" href="#give-time"
+                    style="width:8em">GIVE TIME</a>
             </div>
         </div>
     </section>
@@ -133,9 +138,10 @@
         <div class="w3-display-center" style="width: auto">
 
             <h1 class="w3-center">Here's a list of charities in your area</h1>
-            <ul class="w3-center">
-                <li>
-                    <!-- empty for now, where charities will go :) -->
+            <ul class="w3-center" id="charity-ul">
+                <!-- <div class="w3-container">
+                    <p><i class="fa fa-spinner w3-spin" style="font-size:64px"></i></p>
+                </div> -->
             </ul>
         </div>
         <span id="distance" class="w3-padding-small w3-display-bottomright w3-large">Displaying up to the 5 closest
