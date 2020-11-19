@@ -154,7 +154,7 @@ function findWithinRadius(miles) {
  */
 function extractCharityDataByLocation(jsonData, cityName, stateCode) {
     var charityDataByLocationArray = [];
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 5; i++) {
         var charityDataByLocation = {};
         // 1. Store 3x charity names
         charityDataByLocation.name = jsonData.data[i].charityName;
@@ -178,10 +178,22 @@ function extractCharityDataByLocation(jsonData, cityName, stateCode) {
 function retrieveCharitiesByLocation(cityName, stateCode) {
     var localDbCharityData = JSON.parse(localStorage.getItem(cityName + "," + stateCode));
     var isInLocalDb = (localDbCharityData !== null) ? true : false;
+    var charities = [];
     if (isInLocalDb) {
         console.log("Data found in localDB!");
         console.log(localDbCharityData);
+        // Render charities list
+        for (var i = 0; i < 5; i++) {
+
+            var url = localDbCharityData.charitiesArray[i].donationUrl;
+            var charity = localDbCharityData.charitiesArray[i].name;
+            // console.log("url:" + url);
+            // console.log("charity:" + charity);
+            charities.push([charity, url])
+        }
+        createListItem(charities, charitySection);
     } else {
+        console.log("Data NOT found in localDB, making an fetch API call");
         var cors = "https://cors-anywhere.herokuapp.com/"
         var baseUrl = "http://data.orghunter.com/v1/charitysearch?"
         var city = "city=" + cityName;
@@ -192,8 +204,19 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
             })
             .then(function(jsonData) {
                 // store 3 charities in localDB
-                // console.log(jsonData);
+                console.log(jsonData.data);
                 extractCharityDataByLocation(jsonData, cityName, stateCode);
+                localDbCharityData = JSON.parse(localStorage.getItem(cityName + "," + stateCode));
+                // Render charities list
+                for (var i = 0; i < 5; i++) {
+
+                    var url = localDbCharityData.charitiesArray[i].donationUrl;
+                    var charity = localDbCharityData.charitiesArray[i].name;
+                    // console.log("url:" + url);
+                    // console.log("charity:" + charity);
+                    charities.push([charity, url])
+                }
+                createListItem(charities, charitySection);
             })
             .catch(function(error) {
                 console.log(error);
