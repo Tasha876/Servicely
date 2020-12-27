@@ -1,13 +1,118 @@
 html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
 }
 
 .w3-red {
     background-color: hsl(0, 72%, 30%) !important;
 }
 
+@keyframes fade-in {
+from {opacity: 0;}
+to {opacity: 1;}
+}
+
+section{
+    display: none;
+    /* overflow: hidden; */
+}
+
 .button-group {
     border-radius: 15px !important;
+}
+
+section > .w3-button {
+    margin-top: 5px;
+}
+
+#main {
+    display: block;
+    background-image: url(../images/hands.png);
+}
+
+#get-help {
+    position: relative;
+}
+
+.options {
+    width: 60vw;
+    background-color: rgba(245, 245, 245, 0.75);
+    padding: 50px;
+}
+
+#get-help-legal {
+    position: absolute;
+    height: 100vh;
+    width: 33.3333vw;
+    left: 0;
+    background-image: url(../images/legal.png);
+    background-size: auto 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#get-help-housing {
+    position: absolute;
+    height: 100vh;
+    width: calc(33.3333vw + 3px);
+    left: calc(33.3333vw - 1.5px);
+    background-image: url(../images/housing.png);
+    background-size: auto 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: 3px dashed white;
+}
+
+#get-help-work {
+    position: absolute;
+    height: 100vh;
+    width: 33.3333vw;
+    left: 66.6667vw;
+    background-image: url(../images/work.png);
+    background-repeat: no-repeat;
+    background-size: auto 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: 3px dashed white;
+}
+
+#give-help {
+    /* position: relative; */
+    background-image: url(../images/time__money.png);
+}
+
+/* #give-help-money {
+    position: absolute;
+    height: 100vh;
+    width: 75vw;
+    left: 0;
+    background-image: url(../images/money.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: 0 0;
+    transform: rotate(30deg);
+}
+
+#give-help-time {
+    position: absolute;
+    height: 100vh;
+    width: 50vw;
+    left: 50vw;
+    background-image: url(../images/time.png);
+    background-repeat: no-repeat;
+    background-size: auto 100vh;
+    background-position: 10vw 30vh;
+} */
+
+
+section h1 {
+    display:inline;
+    background-color: #111;
+    color: whitesmoke;
+}
+
+#main > h1 {
+    display: inline;
+    padding: 2px;
 }
 
 
@@ -17,20 +122,21 @@ html {
 } */
 
 section:not(:last-child) {
-    border-bottom: 3px dashed grey;
+    border-bottom: 3px dashed #111;
 }
 
-section:nth-child(even) {
-    background-color: lightGrey;
-}
+/* section:nth-child(even) {
+    background-color: #ddd;
+} */
 
 #get-help .button-group a {
     display: inline-block !important;
     width: 11.5em;
 }
 
-#get-help article h3.right {
-    border-radius: 0 8px 8px 0;
+h3 {
+    margin: 0;
+    padding: 0
 }
 
 ul li a {
