@@ -240,7 +240,7 @@ function retrieveCharitiesByLocation(cityName, stateCode) {
         for (var i = 0; i < 5; i++) {
 
             var url = localDbCharityData.charitiesArray[i].donationUrl;
-            var charity = localDbCharityData.charitiesArray[i].name;
+            var charity = localDbCharityData.charitiesArray[i].name.toLowerCase();
             // console.log("url:" + url);
             // console.log("charity:" + charity);
             charities.push([charity, url])
@@ -313,7 +313,7 @@ function positionNotFound(position) {
 // code to initialize application
 function initApplication() {
     // reset location hash on page refresh
-    location.hash = "";
+    location.hash = "#main";
 
     // basically just adding some event listeners to some buttons
 
@@ -334,6 +334,35 @@ function initApplication() {
         createListItem(giveTimeList, volunteerSection);
     });
 
+}
+
+
+var sections = document.querySelectorAll("section");
+
+function fadeIn() {
+    sectionId = location.hash;
+    console.log(sectionId);
+    document.querySelector(sectionId).animate([{opacity: "0"}, {opacity: "1"}],{duration: 500});
+}
+
+var buttonLinks = document.querySelectorAll("a.w3-button");
+
+console.log(buttonLinks)
+
+
+window.addEventListener("hashchange", fadeIn);
+
+for(var i = 0; i < buttonLinks.length; i++) {  
+    
+    buttonLinks[i].addEventListener("click", function(){
+         link = event.target.hash;
+        console.log(link)
+        nextSection = document.querySelector(link);
+        nextSection.style.display = "block";
+        window.scrollTo(0,nextSection.offsetTop);
+        console.log(nextSection.offsetTop)
+        fadeIn();
+    });
 }
 
 // jQuery entry-point
